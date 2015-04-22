@@ -1,254 +1,300 @@
 <!doctype html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>FLUX Presentation</title>
-	<link rel="stylesheet" href="node_modules/reveal/index.css">
-  <!-- good themes: simple (techy), sky (light) -->
-	<link rel="stylesheet" href="node_modules/reveal/theme/simple.css" id="theme">
-	<!--Add support for earlier versions of Internet Explorer -->
-	<!--[if lt IE 9]>
-	<script src="node_modules/html5shiv/dist/html5shiv.min.js"></script>
-	<![endif]-->
 
-	<link rel="stylesheet" href="main.css">
-</head>
+	<head>
 
-<body>
-	<!-- Wrap the entire slide show in a div using the "reveal" class. -->
-	<div class="reveal">
-		<!-- Wrap all slides in a single "slides" class -->
-		<div class="slides">
+		<meta charset="utf-8">
 
-			<!-- TODO:
-			* comments to speakers notes
-			* the code-snippets (see notes.md)
-			* facebook chat code examples
-			* reference all image sources
-			* implementations?
-			* rendering frameworks?
-				* are they required? (fb-flux vs songflux?)
-				* if "yes": list some!
+		<title>FLUX Presentation</title>
 
-			* stopped here:
-				* songflux (haz demo): https://medium.com/@davidsouther/song-flux-e1f9786579f6
-				* http://fluxxor.com/what-is-flux.html
-				* https://facebook.github.io/flux/docs/overview.html
-				* simple demo @ http://slides.com/danabramov/components-react-flux-wip#/46
-				* moar demo: http://www.jflux.io/#/
-				* mvvm: https://en.wikipedia.org/wiki/Model_View_ViewModel
-				* command query responsibility segregation: http://martinfowler.com/bliki/CQRS.html
-			-->
+		<meta name="description"
+			content="Slidedeck on FLUX and MVC">
+		<meta name="author"
+			content="Kevin Singer">
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-			<section>
-				<h1>Client-Side<br>Architecture</h1>
-				<!--
-				* meta: press 'space' to navigate
+
+		<link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="node_modules/reveal.js/css/theme/simple.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ?
+				'node_modules/reveal.js/css/print/pdf.css' : 'node_modules/reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="node_modules/reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<!-- TODO:
+				* comments to speakers notes
+				* the code-snippets (see notes.md)
+				* facebook chat code examples
+				* reference all image sources
+				* implementations?
+				* rendering frameworks?
+					* are they required? (fb-flux vs songflux?)
+					* if "yes": list some!
+
+				* stopped here:
+					* songflux (haz demo): https://medium.com/@davidsouther/song-flux-e1f9786579f6
+					* http://fluxxor.com/what-is-flux.html
+					* https://facebook.github.io/flux/docs/overview.html
+					* simple demo @ http://slides.com/danabramov/components-react-flux-wip#/46
+					* moar demo: http://www.jflux.io/#/
+					* mvvm: https://en.wikipedia.org/wiki/Model_View_ViewModel
+					* command query responsibility segregation: http://martinfowler.com/bliki/CQRS.html
 				-->
-			</section>
 
-			<section>
-				<h2>A Bit of History</h2>
-				<!-- historically: extrapolated from successful rewrite of Facebook chat -->
-				<img src="img/facebook_chat.png" alt="Facebook chat icon with 1 notification.">
-			</section>
-
-
-
-			<section>
 				<section>
-					<h1>MVC</h1>
-					<!--
-					* many variations
-					-->
-				</section>
-				<section>
-					<h2>Classical MVC</h2>
-					<img src="img/proper_mvc.png" alt="User -> Controller -> Model -> View -> User">
-				</section>
-				<section>
-					<h2>Angular MVC</h2>
-					<img src="img/angular_mvc_triangle.png" alt="">
-					<p class="fineprint">
-						<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
-							https://medium.com/@davidsouther/song-flux-e1f9786579f6
-						</a>
-					</p>
+					<h1>Client-Side<br>Architecture</h1>
+				  <aside class="notes">
+						meta: press 'space' to navigate
+				  </aside>
 				</section>
 
 				<section>
-					<h2>Angular Code</h2>
-					<img src="img/angular_view-scope-controller.png" alt="">
-					<p class="fineprint">
-						<a href="https://docs.angularjs.org/guide/concepts">
-							https://docs.angularjs.org/guide/concepts
-						</a>
-					</p>
+					<h2>A Bit of History</h2>
+					<!-- historically: extrapolated from successful rewrite of Facebook chat -->
+					<img src="img/facebook_chat.png" alt="Facebook chat icon with 1 notification.">
 				</section>
+
 
 
 				<section>
-					<!--
-					* control flow hard to trace
-					-->
-					<h2>Scaling</h2>
-					<img src="img/angular_mvc_complexity.png" alt="">
-					<p class="fineprint">
-						<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
-							https://medium.com/@davidsouther/song-flux-e1f9786579f6
-						</a>
-					</p>
+					<section>
+						<h1>MVC</h1>
+						<!--
+						* many variations
+						-->
+					</section>
+					<section>
+						<h2>Classical MVC</h2>
+						<img src="img/proper_mvc.png" alt="User -> Controller -> Model -> View -> User">
+					</section>
+					<section>
+						<h2>Angular MVC</h2>
+						<img src="img/angular_mvc_triangle.png" alt="">
+						<p class="fineprint">
+							<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+								https://medium.com/@davidsouther/song-flux-e1f9786579f6
+							</a>
+						</p>
+					</section>
+
+					<section>
+						<h2>Angular Code</h2>
+						<img src="img/angular_view-scope-controller.png" alt="">
+						<p class="fineprint">
+							<a href="https://docs.angularjs.org/guide/concepts">
+								https://docs.angularjs.org/guide/concepts
+							</a>
+						</p>
+					</section>
+
+
+					<section>
+						<!--
+						* control flow hard to trace
+						-->
+						<h2>Scaling</h2>
+						<img src="img/angular_mvc_complexity.png" alt="">
+						<p class="fineprint">
+							<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+								https://medium.com/@davidsouther/song-flux-e1f9786579f6
+							</a>
+						</p>
+					</section>
 				</section>
-			</section>
-			<!--
-				<section>
-					<img src="img/proper_mvc.png" alt="Proper MVC">
+				<!--
+					<section>
+						<img src="img/proper_mvc.png" alt="Proper MVC">
+					</section>
+					<section>
+						<h2>Bidirectional Binding</h2>
+						<p>(Biased visualisation)</p>
+						<img src="img/mvc_problems.png" alt="Showing an MVC app with bidirectional data-flow where the control flow becomes confusing.">
+						<!--
+
+						* Multiple copies of data (?)
+						-->
+						<!--
+					</section>
+
 				</section>
-				<section>
-					<h2>Bidirectional Binding</h2>
-					<p>(Biased visualisation)</p>
-					<img src="img/mvc_problems.png" alt="Showing an MVC app with bidirectional data-flow where the control flow becomes confusing.">
-					<!--
-
-					* Multiple copies of data (?)
-					-->
-					<!--
-				</section>
-
-			</section>
-		-->
-
-
-
-			<section>
-				<section>
-					<h1>FLUX</h1>
-				</section>
-
-				<section>
-					<h2>Unidirectional Data Flow</h2>
-					<img src="img/flux_simple.png" alt="Action -> Dispatcher -> Store -> View">
-					<!--
-					* only one path to be considered (no direct interactions between views/controllers)
-					* predictability
-					* Focusses more on time-orientation (pipes/data-flow instead of OOP-style code seperation)
-					* processes an action at a time
-					* no business logic @ dispatcher (it's an event hub)
-					* logic @ stores
-					* ~MVC with logical event queue between View and ModelController
-					* takes more influence from CQRS (?)
-					* Single Source of Truth (but isn't model in MVC the same?)
-					-->
-				</section>
-
-				<section>
-					<h2>Plus Interactions</h2>
-					<img src="img/songflux_simple.png" alt="Same as above but with link from view to action.">
-					<p class="fineprint">
-						<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
-							https://medium.com/@davidsouther/song-flux-e1f9786579f6
-						</a>
-					</p>
-				</section>
-
-				<section>
-					<h2>Scaling</h2>
-					<img src="img/songflux_complex.png" alt="Flux with many stores and views, still with easily traceable cause-effect-chains">
-					<p class="fineprint">
-						<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
-							https://medium.com/@davidsouther/song-flux-e1f9786579f6
-						</a>
-					</p>
-				</section>
-
-				<section>
-					<h2>Plus Server-Side</h2>
-					<img src="img/flux_server.png" alt="Web server calling actions.">
-					<!--
-					* use the same action path as user actions!
-					* thus good for multi-actor systems (?)
-					-->
-				</section>
-
-			</section>
-
-			<!--
-			<section>
-				<section>
-					<h1>MVVM</h1>
-				</section>
-				<section>
-					<img src="img/mvvm.png" alt="View <-> ViewModel <-> Model">
-				</section>
-			</section>
 			-->
 
-			<section>
-				<h2>Summary</h2>
-				<ul>
 
-				</ul>
-			</section>
 
-			<section>
-				<h2>References</h2>
-				<ul>
-					<li>
-						<a href="https://docs.angularjs.org/guide/concepts">
-							Angular MVC - Conceptual Overview
-						</a>
-					</li>
-					<li>
-						<a href="https://facebook.github.io/flux/docs/overview.html">
-							Facebook's FLUX documentation
-						</a>
-					</li>
-					<li>
-						<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
-							"What is Flux" @ Song Flux (Flux+Angular)</a>
-					</li>
-					<li>
-						<a href="http://fluxxor.com/what-is-flux.html">
-							"What is Flux?" @ fluxxor.com
-						</a>
-					</li>
-					<li>
-						<a href="http://slides.com/danabramov/components-react-flux-wip">
-							Slidedeck on FLUX by Dan Abramov
-						</a>
-					</li>
-					<li>
-						<a href="http://www.reddit.com/r/programming/comments/25nrb5/facebook_mvc_does_not_scale_use_flux_instead/">
-							Extensive reddit/r/programming discussion
-						</a>
-					</li>
-				</ul>
-			</section>
+				<section>
+					<section>
+						<h1>FLUX</h1>
+					</section>
 
-<!-- in this comment: boilerplate kept for reference
-			<section id="show-a-link">
-				<h2>Show a live link</h2>
-				<p>Slide 2 discussed here</p>
-				<p>See <a href="http://www.htmlcheats.com">HTMLCheats.com</a><p>
-			</section>
+					<section>
+						<h2>Unidirectional Data Flow</h2>
+						<img src="img/flux_simple.png" alt="Action -> Dispatcher -> Store -> View">
+						<!--
+						* only one path to be considered (no direct interactions between views/controllers)
+						* predictability
+						* Focusses more on time-orientation (pipes/data-flow instead of OOP-style code seperation)
+						* processes an action at a time
+						* no business logic @ dispatcher (it's an event hub)
+						* logic @ stores
+						* ~MVC with logical event queue between View and ModelController
+						* takes more influence from CQRS (?)
+						* Single Source of Truth (but isn't model in MVC the same?)
+						-->
+					</section>
 
-			<section>
-				<h2>Slide 3</h2>
-				<p>How does one revisit an arbitrary slide in code?</p>
-				<p>Visit internal slide<a href="#/show-a-link"> 2</a>
-			</section>
-		-->
+					<section>
+						<h2>Plus Interactions</h2>
+						<img src="img/songflux_simple.png" alt="Same as above but with link from view to action.">
+						<p class="fineprint">
+							<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+								https://medium.com/@davidsouther/song-flux-e1f9786579f6
+							</a>
+						</p>
+					</section>
+
+					<section>
+						<h2>Scaling</h2>
+						<img src="img/songflux_complex.png" alt="Flux with many stores and views, still with easily traceable cause-effect-chains">
+						<p class="fineprint">
+							<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+								https://medium.com/@davidsouther/song-flux-e1f9786579f6
+							</a>
+						</p>
+					</section>
+
+					<section>
+						<h2>Plus Server-Side</h2>
+						<img src="img/flux_server.png" alt="Web server calling actions.">
+						<!--
+						* use the same action path as user actions!
+						* thus good for multi-actor systems (?)
+						-->
+					</section>
+
+				</section>
+
+				<!--
+				<section>
+					<section>
+						<h1>MVVM</h1>
+					</section>
+					<section>
+						<img src="img/mvvm.png" alt="View <-> ViewModel <-> Model">
+					</section>
+				</section>
+				-->
+
+				<section>
+					<h2>Summary</h2>
+					<ul>
+
+					</ul>
+				</section>
+
+				<section>
+					<h2>References</h2>
+					<ul>
+						<li>
+							<a href="https://docs.angularjs.org/guide/concepts">
+								Angular MVC - Conceptual Overview
+							</a>
+						</li>
+						<li>
+							<a href="https://facebook.github.io/flux/docs/overview.html">
+								Facebook's FLUX documentation
+							</a>
+						</li>
+						<li>
+							<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+								"What is Flux" @ Song Flux (Flux+Angular)</a>
+						</li>
+						<li>
+							<a href="http://fluxxor.com/what-is-flux.html">
+								"What is Flux?" @ fluxxor.com
+							</a>
+						</li>
+						<li>
+							<a href="http://slides.com/danabramov/components-react-flux-wip">
+								Slidedeck on FLUX by Dan Abramov
+							</a>
+						</li>
+						<li>
+							<a href="http://www.reddit.com/r/programming/comments/25nrb5/facebook_mvc_does_not_scale_use_flux_instead/">
+								Extensive reddit/r/programming discussion
+							</a>
+						</li>
+					</ul>
+				</section>
+
+	<!-- in this comment: boilerplate kept for reference
+				<section id="show-a-link">
+					<h2>Show a live link</h2>
+					<p>Slide 2 discussed here</p>
+					<p>See <a href="http://www.htmlcheats.com">HTMLCheats.com</a><p>
+				</section>
+
+				<section>
+					<h2>Slide 3</h2>
+					<p>How does one revisit an arbitrary slide in code?</p>
+					<p>Visit internal slide<a href="#/show-a-link"> 2</a>
+				</section>
+			-->
+
 
 			</div>
-	</div>
-	<!--<script src="lib/js/head.min.js"></script>-->
-	<script src="node_modules/reveal/index.js"></script>
 
-	<script>
-		// Required, even if empty.
-		Reveal.initialize({
-			transition: 'slide'
-		});
-	</script>
-</body>
+		</div>
+
+		<script src="node_modules/reveal.js/lib/js/head.min.js"></script>
+		<script src="node_modules/reveal.js/js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'node_modules/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'node_modules/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'node_modules/reveal.js/plugin/zoom-js/zoom.js', async: true },
+					{ src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
 </html>

@@ -2,14 +2,13 @@
   "name": "RevealJSTest",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "html5shiv": "^3.7.2",
-    "reveal": "0.0.4"
+    "reveal.js": "git://github.com/hakimel/reveal.js",
   }
 }
