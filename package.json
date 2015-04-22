@@ -9,6 +9,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "reveal.js": "git://github.com/hakimel/reveal.js",
+    "reveal.js": "git://github.com/hakimel/reveal.js"
   }
 }
