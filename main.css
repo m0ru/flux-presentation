@@ -1,4 +1,4 @@
 .fineprint {
   /*for some reason !important is the only way to override reveal's css*/
-	font-size: medium !important;
-}.reveal section img {  /* overwrite borders that clash with most graphics */  border: none !important;  box-shadow: none !important;}
+	font-size: small !important;
+}.grey {	color: #AAA;}.reveal section img {  /* overwrite borders that clash with most graphics */  border: none !important;  box-shadow: none !important;}ol {	list-style-type: default !important;}

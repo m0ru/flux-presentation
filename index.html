@@ -1,300 +1,506 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
+  <head>
 
-		<meta charset="utf-8">
+    <meta charset="utf-8">
 
-		<title>FLUX Presentation</title>
+    <title>FLUX Presentation</title>
 
-		<meta name="description"
-			content="Slidedeck on FLUX and MVC">
-		<meta name="author"
-			content="Kevin Singer">
-		<meta name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="description"
+      content="Slidedeck on FLUX and MVC">
+    <meta name="author"
+      content="Kevin Singer">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
+    <link rel="stylesheet" href="main.css">
 
-		<link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
-		<link rel="stylesheet" href="node_modules/reveal.js/css/theme/simple.css" id="theme">
+    <link rel="stylesheet" href="node_modules/reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="node_modules/reveal.js/css/theme/simple.css" id="theme">
 
-		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="node_modules/reveal.js/lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ?
-				'node_modules/reveal.js/css/print/pdf.css' : 'node_modules/reveal.js/css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ?
+        'node_modules/reveal.js/css/print/pdf.css' : 'node_modules/reveal.js/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
 
-		<!--[if lt IE 9]>
-		<script src="node_modules/reveal.js/lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+    <!--[if lt IE 9]>
+    <script src="node_modules/reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
 
-	<body>
+  <body>
 
-		<div class="reveal">
+    <div class="reveal">
 
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				<!-- TODO:
-				* comments to speakers notes
-				* the code-snippets (see notes.md)
-				* facebook chat code examples
-				* reference all image sources
-				* implementations?
-				* rendering frameworks?
-					* are they required? (fb-flux vs songflux?)
-					* if "yes": list some!
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <!-- TODO:
+        * reference all image sources
+        * implementations?
+        * rendering frameworks?
+          * are they required? (fb-flux vs songflux?)
+          * if "yes": list some!
 
-				* stopped here:
-					* songflux (haz demo): https://medium.com/@davidsouther/song-flux-e1f9786579f6
-					* http://fluxxor.com/what-is-flux.html
-					* https://facebook.github.io/flux/docs/overview.html
-					* simple demo @ http://slides.com/danabramov/components-react-flux-wip#/46
-					* moar demo: http://www.jflux.io/#/
-					* mvvm: https://en.wikipedia.org/wiki/Model_View_ViewModel
-					* command query responsibility segregation: http://martinfowler.com/bliki/CQRS.html
-				-->
+        * stopped here:
+          * songflux (haz demo): https://medium.com/@davidsouther/song-flux-e1f9786579f6
+          * http://fluxxor.com/what-is-flux.html
+          * https://facebook.github.io/flux/docs/overview.html
+          * simple demo @ http://slides.com/danabramov/components-react-flux-wip#/46
+          * moar demo: http://www.jflux.io/#/
+          * mvvm: https://en.wikipedia.org/wiki/Model_View_ViewModel
+          * command query responsibility segregation: http://martinfowler.com/bliki/CQRS.html
+        -->
 
-				<section>
-					<h1>Client-Side<br>Architecture</h1>
-				  <aside class="notes">
-						meta: press 'space' to navigate
-				  </aside>
-				</section>
+        <section>
+          <h1>FLUX</h1>
+          <h2>Client-Side<br>Architecture</h2>
+          <aside class="notes">
+            meta: press 'space' to navigate
+          </aside>
+        </section>
 
-				<section>
-					<h2>A Bit of History</h2>
-					<!-- historically: extrapolated from successful rewrite of Facebook chat -->
-					<img src="img/facebook_chat.png" alt="Facebook chat icon with 1 notification.">
-				</section>
+        <section>
+          <section>
+            <h1>Motivations</h1>
+          </section>
+          <section>
+            <h2>Classical MVC</h2>
+            <img src="img/proper_mvc.png" alt="User -> Controller -> Model -> View -> User">
+          </section>
+          <section>
+            <h2>A Bit of History</h2>
+            <!-- historically: extrapolated from successful rewrite of Facebook chat -->
+            <img src="img/facebook_chat.png" alt="Facebook chat icon with 1 notification.">
+          </section>
+          <section>
+            <h2>Unseen Count</h2>
+            <ul>
+              <li>Increment unseen thread count</li>
+              <li>Append message in chat tab</li>
+            </ul>
+            <pre><code data-trim>
+function newMessageHandler(message) {
+  UnseenCount.incrementUnseen();
 
+  var chatTab = ChatTabs.getChatTab(message.threadID);
+  chatTab.appendMessage(message);
 
+  if(chatTab.hasFocus()) {
+    UnseenCount.decrementUnseen()
+  }
+}
+            </code></pre>
+          </section>
 
-				<section>
-					<section>
-						<h1>MVC</h1>
-						<!--
-						* many variations
-						-->
-					</section>
-					<section>
-						<h2>Classical MVC</h2>
-						<img src="img/proper_mvc.png" alt="User -> Controller -> Model -> View -> User">
-					</section>
-					<section>
-						<h2>Angular MVC</h2>
-						<img src="img/angular_mvc_triangle.png" alt="">
-						<p class="fineprint">
-							<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
-								https://medium.com/@davidsouther/song-flux-e1f9786579f6
-							</a>
-						</p>
-					</section>
+          <section>
+            <ul>
+              <li>Increment unseen thread count</li>
+              <li>Append message in chat tab</li>
+              <li>If open append message in main messages view</li>
+              <li>If chat tab is focused or main messages view is open, decrement unseen count</li>
+            </ul>
+            <pre><code data-trim>
+function newMessageHandler(message) {
+  UnseenCount.incrementUnseen();
 
-					<section>
-						<h2>Angular Code</h2>
-						<img src="img/angular_view-scope-controller.png" alt="">
-						<p class="fineprint">
-							<a href="https://docs.angularjs.org/guide/concepts">
-								https://docs.angularjs.org/guide/concepts
-							</a>
-						</p>
-					</section>
+  var chatTab = ChatTabs.getChatTab(message.threadID);
+  chatTab.appendMessage(message);
 
+  var messageView = Message.getOpenView();
+  var threadID = MessagesView.getThreadID();
+  if (threadID === message.threadID) {
+    messagesView.appendMessage(message);
+  }
 
-					<section>
-						<!--
-						* control flow hard to trace
-						-->
-						<h2>Scaling</h2>
-						<img src="img/angular_mvc_complexity.png" alt="">
-						<p class="fineprint">
-							<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
-								https://medium.com/@davidsouther/song-flux-e1f9786579f6
-							</a>
-						</p>
-					</section>
-				</section>
-				<!--
-					<section>
-						<img src="img/proper_mvc.png" alt="Proper MVC">
-					</section>
-					<section>
-						<h2>Bidirectional Binding</h2>
-						<p>(Biased visualisation)</p>
-						<img src="img/mvc_problems.png" alt="Showing an MVC app with bidirectional data-flow where the control flow becomes confusing.">
-						<!--
+  if(chatTab.hasFocus() || threadID === message.threadID) {
+    UnseenCount.decrementUnseen()
+  }
+}
+            </code></pre>
+            <p class="fineprint">
+              <a href="https://www.youtube.com/watch?list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v&v=nYkdrAPrdcw&feature=player_detailpage#t=872">
+                Original presentation by FB devs (Youtube)
+              </a>
+            </p>
+          </section>
+          <section>
+            <h2>Angular MVC</h2>
+            <img src="img/angular_mvc_triangle.png" alt="">
+            <p class="fineprint">
+              <a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+                https://medium.com/@davidsouther/song-flux-e1f9786579f6
+              </a>
+            </p>
+          </section>
 
-						* Multiple copies of data (?)
-						-->
-						<!--
-					</section>
-
-				</section>
-			-->
-
-
-
-				<section>
-					<section>
-						<h1>FLUX</h1>
-					</section>
-
-					<section>
-						<h2>Unidirectional Data Flow</h2>
-						<img src="img/flux_simple.png" alt="Action -> Dispatcher -> Store -> View">
-						<!--
-						* only one path to be considered (no direct interactions between views/controllers)
-						* predictability
-						* Focusses more on time-orientation (pipes/data-flow instead of OOP-style code seperation)
-						* processes an action at a time
-						* no business logic @ dispatcher (it's an event hub)
-						* logic @ stores
-						* ~MVC with logical event queue between View and ModelController
-						* takes more influence from CQRS (?)
-						* Single Source of Truth (but isn't model in MVC the same?)
-						-->
-					</section>
-
-					<section>
-						<h2>Plus Interactions</h2>
-						<img src="img/songflux_simple.png" alt="Same as above but with link from view to action.">
-						<p class="fineprint">
-							<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
-								https://medium.com/@davidsouther/song-flux-e1f9786579f6
-							</a>
-						</p>
-					</section>
-
-					<section>
-						<h2>Scaling</h2>
-						<img src="img/songflux_complex.png" alt="Flux with many stores and views, still with easily traceable cause-effect-chains">
-						<p class="fineprint">
-							<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
-								https://medium.com/@davidsouther/song-flux-e1f9786579f6
-							</a>
-						</p>
-					</section>
-
-					<section>
-						<h2>Plus Server-Side</h2>
-						<img src="img/flux_server.png" alt="Web server calling actions.">
-						<!--
-						* use the same action path as user actions!
-						* thus good for multi-actor systems (?)
-						-->
-					</section>
-
-				</section>
-
-				<!--
-				<section>
-					<section>
-						<h1>MVVM</h1>
-					</section>
-					<section>
-						<img src="img/mvvm.png" alt="View <-> ViewModel <-> Model">
-					</section>
-				</section>
-				-->
-
-				<section>
-					<h2>Summary</h2>
-					<ul>
-
-					</ul>
-				</section>
-
-				<section>
-					<h2>References</h2>
-					<ul>
-						<li>
-							<a href="https://docs.angularjs.org/guide/concepts">
-								Angular MVC - Conceptual Overview
-							</a>
-						</li>
-						<li>
-							<a href="https://facebook.github.io/flux/docs/overview.html">
-								Facebook's FLUX documentation
-							</a>
-						</li>
-						<li>
-							<a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
-								"What is Flux" @ Song Flux (Flux+Angular)</a>
-						</li>
-						<li>
-							<a href="http://fluxxor.com/what-is-flux.html">
-								"What is Flux?" @ fluxxor.com
-							</a>
-						</li>
-						<li>
-							<a href="http://slides.com/danabramov/components-react-flux-wip">
-								Slidedeck on FLUX by Dan Abramov
-							</a>
-						</li>
-						<li>
-							<a href="http://www.reddit.com/r/programming/comments/25nrb5/facebook_mvc_does_not_scale_use_flux_instead/">
-								Extensive reddit/r/programming discussion
-							</a>
-						</li>
-					</ul>
-				</section>
-
-	<!-- in this comment: boilerplate kept for reference
-				<section id="show-a-link">
-					<h2>Show a live link</h2>
-					<p>Slide 2 discussed here</p>
-					<p>See <a href="http://www.htmlcheats.com">HTMLCheats.com</a><p>
-				</section>
-
-				<section>
-					<h2>Slide 3</h2>
-					<p>How does one revisit an arbitrary slide in code?</p>
-					<p>Visit internal slide<a href="#/show-a-link"> 2</a>
-				</section>
-			-->
+          <section>
+            <h2>Angular Code</h2>
+            <img src="img/angular_view-scope-controller.png" alt="">
+            <p class="fineprint">
+              <a href="https://docs.angularjs.org/guide/concepts">
+                https://docs.angularjs.org/guide/concepts
+              </a>
+            </p>
+          </section>
 
 
-			</div>
+          <section>
+            <h2>Scaling</h2>
+            <img src="img/angular_mvc_complexity.png" alt="">
+            <p class="fineprint">
+              <a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+                https://medium.com/@davidsouther/song-flux-e1f9786579f6
+              </a>
+            </p>
+            <aside class="notes">
+              control flow hard to trace
+            </aside>
+          </section>
+        </section>
 
-		</div>
+        <section>
+          <section>
+            <h1>FLUX</h1>
+          </section>
 
-		<script src="node_modules/reveal.js/lib/js/head.min.js"></script>
-		<script src="node_modules/reveal.js/js/reveal.js"></script>
+          <section>
+            <h2>Unidirectional Data Flow</h2>
+            <img src="img/flux_simple.png" alt="Action -> Dispatcher -> Store -> View">
+            <aside class="notes">
+              <ul>
+                <li>only one path to be considered (no direct interactions between views/controllers)</li>
+                <li>predictability</li>
+                <li>Focusses more on time-orientation (pipes/data-flow instead of OOP-style code seperation)</li>
+                <li>processes an action at a time</li>
+                <li>no business logic @ dispatcher (it's an event hub)</li>
+                <li>logic @ stores</li>
+                <li>~MVC with logical event queue between View and ModelController</li>
+                <li>takes more influence from CQRS (?)</li>
+                <li>Single Source of Truth (but isn't model in MVC the same?)</li>
+              </ul>
+            </aside>
+          </section>
 
-		<script>
+          <section>
+            <h2>Plus Interactions</h2>
+            <img src="img/songflux_simple.png" alt="Same as above but with link from view to action.">
+            <p class="fineprint">
+              <a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+                https://medium.com/@davidsouther/song-flux-e1f9786579f6
+              </a>
+            </p>
+            <aside class="notes">
+              <p><strong>dispatcher</strong></p>
+              <ul>
+                <li>prevents cascades (race conditions, debug nightmare, deadlocks, $infDigest)</li>
+                <li>allows waitFor</li>
+              </ul>
+            </aside>
+          </section>
 
-			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
+          <section>
+            <h2>Scaling</h2>
+            <img src="img/songflux_complex.png" alt="Flux with many stores and views, still with easily traceable cause-effect-chains">
+            <p class="fineprint">
+              <a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+                https://medium.com/@davidsouther/song-flux-e1f9786579f6
+              </a>
+            </p>
+            <aside class="notes">
+              <ul>
+                <li>decoupled</li>
+                <li>thus easy to reason</li>
+                <li>thus easy testing/mocking</li>
+                <li>con: additional concepts</li>
+              </ul>
+            </aside>
+          </section>
 
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
+          <section>
+            <h2>Plus Server-Side</h2>
+            <img src="img/flux_server.png" alt="Web server calling actions.">
+						<aside class="notes">
+              <ol>
+                <li>use the same action path as user actions!</li>
+                <li>thus good for multi-actor systems (?)</li>
+              </ol>
+						</aside>
+          </section>
+        </section>
 
-				// Optional reveal.js plugins
-				dependencies: [
-					{ src: 'node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'node_modules/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'node_modules/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'node_modules/reveal.js/plugin/zoom-js/zoom.js', async: true },
-					{ src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
-				]
-			});
+        <section>
+          <section>
+            <h2><span class="grey">FLUX</span>Case Study</h2>
+            <p>SongFLUX for Angular</p>
+            <p class="grey">Code examples from Trkstr, a music player</p>
+            <p class="fineprint">
+              <a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+                Introductionary Blogpost by David Souther
+              </a>
+            </p>
+          </section>
 
-		</script>
+          <section>
+            <h2>Action Constructor</h2>
+            <pre><code data-trim>
+angular.module('trkstr.player.actions', [
+  'songFlux'
+]).factory('PlayerActions', function(songFactory){
+  function PlayAction(track){
+    this.track = track;
+    this.purpose = 'Request a track be played.';
+    this.dispatcher = songFactory.getDispatcher('trkstr');
+  }
 
-	</body>
+  PlayAction.prototype.dispatch = function(){
+    this.dispatcher.dispatch(this);
+  };
+
+  return {
+    Play: PlayAction
+  };
+});
+            </code></pre>
+            <aside class="notes">
+              actions: instantiable functions representing Flux actions
+            </aside>
+
+          </section>
+
+          <section>
+            <h2>Store (1/2)</h2>
+            <pre><code data-trim>
+PlayerFactory = function(Actions, song) {
+    function PlayerStore() {
+        global.EventEmitter.call(this);
+        this.dispatcher = song.getDispatcher('trkstr');
+        this.Events = PlayerStore.Events;
+
+        this.currentTrack = { title: "Nothing Playing..." };
+        this.doPlay = this.dispatcher.register(Actions.Play,
+                                     this.play.bind(this));
+    }
+    PlayerStore.prototype = Object.create(EventEmitter.prototype);
+
+    PlayerStore.prototype.play = function(playAction) {
+        this.currentTrack = playAction.track;
+        this.emit(PlayerStore.Events.TrackChanged);
+    };
+
+            </code></pre>
+            <aside class="notes">
+              stores: an extension of factories
+            </aside>
+          </section>
+
+          <section>
+            <h2>Store (2/2)</h2>
+            <pre><code data-trim>
+...
+
+    PlayerStore.Events = {
+        TrackChanged: 'TrackChanged'
+    };
+
+    return new PlayerStore();
+};
+
+PlayerFactory.$inject = [ 'TrkstrActions', 'songFactory' ];
+angular.module('trkstr.stores.player', [
+    'trkstr.actions', 'songFlux'
+]).factory('PlayerStore', PlayerFactory);
+            </code></pre>
+          </section>
+
+
+          <section>
+            <h2>Template</h2>
+            <pre><code data-trim>
+<!-- PlayerController Template -->
+<div class="Player">
+  <span class="title">playing {{ state.track.title }}</span>
+  <audio
+    ng-if="state.track.path"
+    autoplay controls
+    ng-src="{{ state.track.path }}"
+  />
+</div>
+            </code></pre>
+            <aside class="notes">
+              components: a combined directive, controller, and template
+            </aside>
+          </section>
+
+          <section>
+            <h2>ng-Controller (1/3)</h2>
+            <pre><code data-trim>
+function PlayerController(store) {
+    this.store = store;
+    this.store.on(
+        this.store.Events.TrackChanged,
+        this.play.bind(this));
+    this.play();
+}
+
+PlayerController.prototype.play = function() {
+    return this.track = this.store.currentTrack;
+};
+
+PlayerController.$inject = ['PlayerStore'];
+
+            </code></pre>
+          </section>
+          <section>
+            <h2>ng-Controller (2/3)</h2>
+            <pre><code data-trim>
+function PlayerDirective() {
+    this.controller = PlayerController;
+    this.templateUrl = 'player';
+    this.replace = false;
+    this.restrict = 'E';
+    this.controllerAs = 'state';
+    this.bindToController = true;
+    this.scope = {};
+}
+            </code></pre>
+          </section>
+          <section>
+            <h2>ng-Controller</h2>
+            <pre><code data-trim>
+PlayerDirective.factory = function() {
+    return new PlayerDirective();
+};
+PlayerDirective.factory.$inject = [];
+
+angular.module('trkstr.player.component', [
+    'trkstr.stores.player', 'player.template'
+]).directive('player', PlayerDirective);
+            </code></pre>
+          </section>
+          <section>
+            <h2>Calling Actions</h2>
+            <p>Excerpt from music library component</p>
+            <pre><code data-trim>
+function LibraryController(Library, Actions) {
+    this.Library = Library; // A library has albums, which have tracks
+    this.albums = Library.albums; // Updates on Library mutation events
+    this.Actions = Actions;
+}
+
+LibraryController.prototype.play = function(track) {
+    return this.Actions.Play(track).dispatch();
+};
+
+LibraryController.$inject = ['TrkstrLibrary', 'TrkstrActions'];
+
+            </code></pre>
+            <pre><code data-trim>
+<ol ng-repeat="album in state.albums">
+  <li>{{ album.name }}</li>
+  <li
+    ng-repeat="track in album.tracks"
+    ng-click="state.play(track)"
+  >{{ track.title }}</li>
+</ol>
+            </code></pre>
+          </section>
+        </section>
+
+        <!--
+        <section>
+          <section>
+            <h1>MVVM</h1>
+          </section>
+          <section>
+            <img src="img/mvvm.png" alt="View <-> ViewModel <-> Model">
+          </section>
+        </section>
+        -->
+
+        <section>
+          <h2>Summary</h2>
+          <ul>
+
+          </ul>
+        </section>
+
+        <section>
+          <h2>References</h2>
+          <ul>
+            <li>
+              <a href="https://docs.angularjs.org/guide/concepts">
+                Angular MVC - Conceptual Overview
+              </a>
+            </li>
+            <li>
+              <a href="https://facebook.github.io/flux/docs/overview.html">
+                Facebook's FLUX documentation
+              </a>
+            </li>
+            <li>
+              <a href="https://medium.com/@davidsouther/song-flux-e1f9786579f6">
+                "What is Flux" at Song Flux (Flux+Angular)</a>
+            </li>
+            <li>
+              <a href="http://fluxxor.com/what-is-flux.html">
+                "What is Flux?" at fluxxor.com
+              </a>
+            </li>
+            <li>
+              <a href="http://slides.com/danabramov/components-react-flux-wip">
+                Slidedeck on FLUX by Dan Abramov
+              </a>
+            </li>
+            <li>
+              <a href="http://www.reddit.com/r/programming/comments/25nrb5/facebook_mvc_does_not_scale_use_flux_instead/">
+                Extensive reddit/r/programming discussion
+              </a>
+            </li>
+          </ul>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="node_modules/reveal.js/lib/js/head.min.js"></script>
+    <script src="node_modules/reveal.js/js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'node_modules/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'node_modules/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'node_modules/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'node_modules/reveal.js/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'node_modules/reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'node_modules/reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script>
+
+  </body>
 </html>
